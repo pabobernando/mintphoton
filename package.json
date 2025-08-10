@@ -1,0 +1,77 @@
+{
+  "name": "mintphoton",
+  "version": "1.0.8",
+  "description": "Simple library for minting PHOTON tokens on AtomOne blockchain",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./hooks": {
+      "import": "./dist/hooks.js",
+      "require": "./dist/hooks.js",
+      "types": "./dist/hooks.d.ts"
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "npm run proto:gen && tsc && cp -r src/types dist/",
+    "proto:gen": "npx buf generate",
+    "dev": "npm run proto:gen && tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "postbuild": "cp -r src/types dist/"
+  },
+  "keywords": [
+    "atomone",
+    "photon",
+    "cosmos",
+    "blockchain",
+    "mint",
+    "cosmjs",
+    "keplr"
+  ],
+  "author": "22Node <contact@22node.xyz>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/22node/mintphoton.git"
+  },
+  "homepage": "https://github.com/22node/mintphoton#readme",
+  "bugs": {
+    "url": "https://github.com/22node/mintphoton/issues"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.6.1",
+    "@cosmjs/proto-signing": "^0.34.0",
+    "@cosmjs/stargate": "^0.34.0",
+    "@keplr-wallet/types": ">=0.12.0",
+    "google-protobuf": "^3.21.2"
+  },
+  "devDependencies": {
+    "@bufbuild/protobuf": "^1.10.0",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@types/google-protobuf": "^3.15.12",
+    "@types/jest": "^30.0.0",
+    "@types/react": "^19.1.9",
+    "jest": "^30.0.5",
+    "ts-jest": "^29.4.1",
+    "ts-proto": "^2.7.5",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "@keplr-wallet/types": ">=0.12.0",
+    "react": ">=16.8.0"
+  }
+}
