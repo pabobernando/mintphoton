@@ -20,6 +20,7 @@ Object.defineProperty(exports, "MintPhotonClient", { enumerable: true, get: func
 __exportStar(require("./types"), exports);
 __exportStar(require("./errors"), exports);
 __exportStar(require("./utils"), exports);
+__exportStar(require("./hooks"), exports);
 const client_2 = require("./client");
 const createMintPhotonClient = (rpcEndpoint, chainId = "atomone-1") => {
     return new client_2.MintPhotonClient({ rpcEndpoint, chainId });

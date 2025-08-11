@@ -2,6 +2,7 @@ export { MintPhotonClient } from "./client";
 export * from "./types";
 export * from "./errors";
 export * from "./utils";
+export * from "./hooks";
 
 import { MintPhotonClient } from "./client";
 
