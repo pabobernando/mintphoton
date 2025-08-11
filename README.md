@@ -8,7 +8,75 @@ Simple library for minting PHOTON tokens on AtomOne blockchain.
 npm install mintphoton
 ```
 
-## Quick Start
+## Quick Start with React Hook (Recommended)
+
+```typescript
+import React from "react";
+import { useMintPhoton, ATOMONE_MAINNET_RPC } from "mintphoton";
+import { OfflineSigner } from "@cosmjs/proto-signing";
+
+function App() {
+  const {
+    isConnected,
+    walletInfo,
+    supplyInfo,
+    isLoading,
+    error,
+    connect,
+    mintPhoton,
+  } = useMintPhoton(ATOMONE_MAINNET_RPC);
+
+  const handleConnectWallet = async () => {
+    if (!window.keplr) {
+      alert("Please install Keplr extension");
+      return;
+    }
+
+    await window.keplr.enable("atomone-1");
+    const signer = window.keplr.getOfflineSigner("atomone-1");
+    await connect(signer);
+  };
+
+  const handleMint = async () => {
+    const result = await mintPhoton(100); // Mint 100 ATONE worth
+    if (result.success) {
+      console.log("Success! TX:", result.transactionHash);
+      console.log("Minted:", result.mintedAmount, "PHOTON");
+    } else {
+      console.error("Error:", result.error);
+    }
+  };
+
+  if (!isConnected) {
+    return (
+      <button onClick={handleConnectWallet} disabled={isLoading}>
+        {isLoading ? "Connecting..." : "Connect Keplr"}
+      </button>
+    );
+  }
+
+  return (
+    <div>
+      <h2>Wallet Info</h2>
+      <p>Address: {walletInfo?.address}</p>
+      <p>Balance: {walletInfo?.balance} ATONE</p>
+
+      <h2>Supply Info</h2>
+      <p>ATONE Supply: {supplyInfo?.atoneSupply}</p>
+      <p>PHOTON Supply: {supplyInfo?.photonSupply}</p>
+      <p>Conversion Rate: {supplyInfo?.conversionRate}</p>
+
+      <button onClick={handleMint} disabled={isLoading}>
+        {isLoading ? "Minting..." : "Mint 100 ATONE"}
+      </button>
+
+      {error && <p style={{ color: "red" }}>Error: {error}</p>}
+    </div>
+  );
+}
+```
+
+## Alternative: Direct Client Usage
 
 ```typescript
 import { createMintPhotonClient, ATOMONE_MAINNET_RPC } from "mintphoton";
@@ -42,6 +110,30 @@ if (result.success) {
 ```
 
 ## API Reference
+
+### useMintPhoton Hook
+
+```typescript
+const {
+  isConnected,
+  walletInfo,
+  supplyInfo,
+  isLoading,
+  error,
+  connect,
+  mintPhoton,
+} = useMintPhoton(rpcEndpoint: string, chainId?: string);
+```
+
+#### Returns
+
+- `isConnected: boolean` - Wallet connection status
+- `walletInfo: WalletInfo | null` - Current wallet information
+- `supplyInfo: SupplyInfo | null` - Current supply information
+- `isLoading: boolean` - Loading state for operations
+- `error: string | null` - Error message if any
+- `connect: (signer: OfflineSigner) => Promise<void>` - Connect wallet function
+- `mintPhoton: (amount: number) => Promise<MintResult>` - Mint PHOTON function
 
 ### MintPhotonClient
 
