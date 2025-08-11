@@ -5,26 +5,22 @@ const stargate_1 = require("@cosmjs/stargate");
 const proto_signing_1 = require("@cosmjs/proto-signing");
 const stargate_2 = require("@cosmjs/stargate");
 const MSG_MINT_PHOTON_TYPE_URL = "/atomone.photon.v1.MsgMintPhoton";
-// Definisi manual untuk MsgMintPhoton karena protobuf tidak lengkap
 const MsgMintPhoton = {
     encode: (message) => {
-        // Implementasi encoding yang mengembalikan object dengan method finish()
         const encoded = new Uint8Array([
-            // Encoding sederhana untuk to_address (field 1)
-            0x0a, // field 1, wire type 2 (length-delimited)
+            0x0a,
             message.to_address ? message.to_address.length : 0,
             ...(message.to_address
                 ? Array.from(new TextEncoder().encode(message.to_address))
                 : []),
-            // Encoding sederhana untuk amount (field 2)
-            0x12, // field 2, wire type 2 (length-delimited)
-            0x10, // length placeholder
-            0x0a, // denom field
+            0x12,
+            0x10,
+            0x0a,
             message.amount?.denom ? message.amount.denom.length : 0,
             ...(message.amount?.denom
                 ? Array.from(new TextEncoder().encode(message.amount.denom))
                 : []),
-            0x12, // amount field
+            0x12,
             message.amount?.amount ? message.amount.amount.length : 0,
             ...(message.amount?.amount
                 ? Array.from(new TextEncoder().encode(message.amount.amount))
@@ -35,7 +31,6 @@ const MsgMintPhoton = {
         };
     },
     decode: (input) => {
-        // Implementasi decoding sederhana
         return {};
     },
     fromPartial: (object) => {

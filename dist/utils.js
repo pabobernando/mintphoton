@@ -29,14 +29,12 @@ exports.formatNumber = formatNumber;
  * Validate AtomOne address
  */
 const isValidAtomOneAddress = (address) => {
-    // AtomOne addresses start with 'atone1' and are typically 39-45 characters long
-    // This is a basic validation - for production, use proper bech32 validation
     if (!address || typeof address !== "string") {
         return false;
     }
     // Check prefix and length
     const hasValidPrefix = address.startsWith("atone1");
-    const hasValidLength = address.length >= 39 && address.length <= 50; // Increased max length
+    const hasValidLength = address.length >= 39 && address.length <= 50;
     // Basic character validation (alphanumeric, no uppercase)
     const hasValidChars = /^[a-z0-9]+$/.test(address);
     return hasValidPrefix && hasValidLength && hasValidChars;
