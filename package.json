@@ -1,6 +1,6 @@
 {
   "name": "mintphoton",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Simple library for minting PHOTON tokens on AtomOne",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
